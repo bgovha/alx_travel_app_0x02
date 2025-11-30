@@ -1,6 +1,20 @@
-# ALX Travel App
+# ALX Travel App - Chapa Payment Integration
 
-A Django-based travel booking application.
+This project integrates Chapa Payment Gateway into the Django travel booking application.
+
+## Features
+
+- Secure payment initiation with Chapa API
+- Payment status verification
+- Transaction tracking and management
+- Automated email notifications
+- Error handling and logging
+
+## Setup Instructions
+
+1. Clone the repository and install dependencies:
+```bash
+pip install -r requirements.txt
 
 ## Models
 

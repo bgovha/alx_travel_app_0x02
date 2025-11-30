@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Listing, Booking, Review
+from .models import Listing, Booking, Review, Payment
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,3 +60,27 @@ class BookingCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = ['listing', 'check_in', 'check_out', 'guests_count', 'special_requests']
+        
+        
+class PaymentInitiationSerializer(serializers.Serializer):
+    booking_id = serializers.IntegerField()
+    return_url = serializers.URLField(required=False)
+    cancel_url = serializers.URLField(required=False)
+
+class PaymentVerificationSerializer(serializers.Serializer):
+    transaction_id = serializers.CharField(max_length=100)
+
+class PaymentSerializer(serializers.ModelSerializer):
+    booking_reference = serializers.CharField(source='booking.booking_reference', read_only=True)
+    
+    class Meta:
+        model = Payment
+        fields = [
+            'id', 'transaction_id', 'chapa_transaction_id', 
+            'amount', 'currency', 'status', 'payment_url',
+            'created_at', 'updated_at', 'booking_reference'
+        ]
+        read_only_fields = [
+            'id', 'transaction_id', 'chapa_transaction_id',
+            'status', 'payment_url', 'created_at', 'updated_at'
+        ]
